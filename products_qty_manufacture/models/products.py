@@ -1,5 +1,4 @@
 from odoo import api, fields, models
-from odoo.addons import decimal_precision as dp
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -12,7 +11,6 @@ class ProductProduct(models.Model):
     qty_manufacture = fields.Float(
         string='Manufacture',
         compute='_compute_quantities',
-        digits=dp.get_precision('Product Unit of Measure'),
         help='Quantity of stock compute from BoM.',
     )
     is_manufacture = fields.Boolean(compute='_compute_is_manufacture', compute_sudo=False)
@@ -92,7 +90,6 @@ class ProductTemplate(models.Model):
     qty_manufacture = fields.Float(
         string='Manufacture',
         related='product_variant_id.qty_manufacture',
-        digits=dp.get_precision('Product Unit of Measure'),
         help='Quantity of stock compute from BoM.',
     )
     is_manufacture = fields.Boolean(compute='_compute_is_manufacture', compute_sudo=False)
