@@ -112,4 +112,4 @@ class ProductTemplate(models.Model):
 
     def _set_stock_bom_id(self):
         if len(self.product_variant_ids) == 1:
-            self.product_variant_ids.stock_bom_id = self.stock_bom_id      
+            self.product_variant_ids.stock_bom_id = self.stock_bom_id
