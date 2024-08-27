@@ -1,5 +1,4 @@
 from odoo import api, fields, models
-from odoo.addons import decimal_precision as dp
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -12,7 +11,7 @@ class ProductProduct(models.Model):
     qty_manufacture = fields.Float(
         string='Manufacture',
         compute='_compute_quantities',
-        digits=dp.get_precision('Product Unit of Measure'),
+        digits='Product Unit of Measure',
         help='Quantity of stock compute from BoM.',
     )
     is_manufacture = fields.Boolean(compute='_compute_is_manufacture', compute_sudo=False)
@@ -52,9 +51,13 @@ class ProductProduct(models.Model):
                 bom = context_bom
         if not bom:
             return 0
-        return int(min([
-            ln.product_id.free_qty / ln.product_qty
-            for ln in bom.bom_line_ids]) * bom.product_qty)
+        
+        if bom.bom_line_ids:
+            return int(min([
+                ln.product_id.free_qty / ln.product_qty
+                for ln in bom.bom_line_ids]) * bom.product_qty)
+        else:
+            return 0
 
     @api.depends('stock_move_ids.product_qty', 'stock_move_ids.state')
     def _compute_quantities(self):
@@ -92,7 +95,7 @@ class ProductTemplate(models.Model):
     qty_manufacture = fields.Float(
         string='Manufacture',
         related='product_variant_id.qty_manufacture',
-        digits=dp.get_precision('Product Unit of Measure'),
+        digits='Product Unit of Measure',
         help='Quantity of stock compute from BoM.',
     )
     is_manufacture = fields.Boolean(compute='_compute_is_manufacture', compute_sudo=False)

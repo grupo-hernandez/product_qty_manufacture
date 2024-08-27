@@ -1,5 +1,5 @@
 {
-    'name': 'Webiste Sale Product Qty Manufacture',
+    'name': 'Website Sale Product Qty Manufacture',
     'summary': 'Check stock for products with bom',
     'category': 'Website',
     'version': '16.0.1',
